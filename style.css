@@ -1,0 +1,225 @@
+body{
+    height: 100%; 
+    margin: 0; 
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;     
+}   
+
+/* Styling elements on app page */
+#app-container{
+    width: min(95vw, 700px);  
+    display: flex; 
+    flex-direction: column; 
+    height: 100dvh;  
+    gap: 5px;  
+}
+
+/*Main container styles*/
+#main-controls-container{ 
+    margin-bottom: 20px; 
+    padding: 2%;  
+    background-color: #00a2ff;   
+    border: 3px solid black; 
+    display: flex; 
+    flex-direction: column; 
+    border-radius: 10px;     
+}
+
+
+/*Main input styles*/
+#main-input{      
+    border: 3px solid white; 
+    border-radius:  10px;
+    border: 1px solid black;  
+    width: 80%; 
+    height: 30px; 
+    font-size: 25px;  
+}
+
+
+/*Focus styles for main input and inline input*/
+#main-input:focus, 
+.inline-input:focus{
+    background-color: black;
+    color: white;  
+    border: 5px solid white;        
+}
+
+#list-items-heading{
+    text-align: center;  
+    font-family: Arial, Helvetica, sans-serif; 
+    margin: 0;  
+    align-self: center; 
+}
+
+ /*Prevent main controls and list heading from growing or shrinking when screen height changes*/  */
+#main-controls-container, 
+#list-items-heading {
+    flex-grow: 0;  
+    flex-shrink: 0; 
+}
+
+/*Button styles*/
+.main-btn,
+.todo-btn{
+    width: 90px;     
+    height: 45px;  
+    padding: 5px; 
+    margin: 5px;    
+    text-align: center;  
+    font-family: Arial, Helvetica, sans-serif;  
+    border-radius: 10%;   
+}
+
+/* Button colors */
+.main-btn, 
+.todo-btn{
+    background-color: black;
+    border: 3px solid white;    
+    color: white; 
+}
+
+/* Colors for CLOSE button in Help dialog */
+#close-btn{
+    background-color: white;
+    border: 3px solid black;    
+    color: black; 
+
+}
+
+
+
+/* Modify todo button dimensions and layout in editing mode */
+/* Hover and focus pseudo classes for buttons */
+.main-btn:hover, 
+.todo-btn:hover, 
+.main-btn:focus, 
+.todo-btn:focus{
+   border: 3px solid black;  
+    background-color: white; 
+    color: black;  
+}  
+
+
+
+
+.disabled-btn{
+    pointer-events: none;
+    opacity: 0.5;  
+}
+
+
+/*Todo items*/
+/*User should be able to scroll list vertically*/
+
+#todo-list{  
+    background-color: black;  
+    display: flex;
+    flex-direction: column;  
+    flex: 1; 
+    padding: 0;
+    margin: 0;  
+    min-height: 0; 
+    width: 100%;  
+    overflow-y: auto; 
+    list-style-type: none;  
+    border: 1px solid black; 
+    border-radius: 10px;   
+}
+
+
+.todo-item{   
+    background-color: yellow; 
+    border: 5px solid black;  
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center;   
+    height: auto;   
+    border-radius:  10px; 
+    align-items: center;  
+    width: 100%;     
+    box-sizing: border-box; 
+    gap: 10px; 
+    padding: 10px;     
+}
+
+/*Todo span styles*/
+.todo-span, 
+.inline-input{
+    display: flex; 
+    justify-content: center; 
+    align-items: center;     
+    text-align: center;  
+    font-size: 30px;  
+    font-family: Arial, Helvetica, sans-serif;   
+    font-weight: bold;  
+    border-radius: 10px; 
+    width: 85%; 
+    height: 45%; 
+    padding: 15px; 
+    overflow-wrap: break-word;      
+}
+
+/* Border styles for spans and inputs */
+.todo-span{
+    border: 3px solid black;  
+}
+
+.inline-input{
+    border: 5px solid black;  
+}
+
+/* Styling for complete and incomplete todos*/
+.todo-span-incomplete{
+    background-color: white; 
+    color: black;  
+}
+
+/* Change background and text colors for completed todo span */
+.todo-span-completed{
+    background-color: #3f9b0b; 
+    color: white;   
+}
+
+/*Hide completed status within span*/
+.sr-only{
+    position: absolute; 
+    left: -100000px; 
+    width: 1px; 
+    height: 1px; 
+    overflow: hidden;  
+}
+
+
+.todo-btn-container{
+    display: flex; 
+    flex-direction: row;  
+    align-items: center;
+    justify-content: center; 
+    flex-wrap: wrap;   
+ }
+
+ /*Hide main controls and saved todos when editing a todo  */
+ .hidden{
+    display: none !important;  
+ }
+
+/* Help dialog styles */
+#help-dialog{
+    background-color: black; 
+    color: white;  
+    font-family: Arial, Helvetica, sans-serif; 
+    font-size: 243m;      
+}
+
+.instruction-item{
+    margin: 10px;  
+}
+
+/* Format Help dialog text */
+.instructions-subheading, 
+.mode-heading {
+    margin-top: 50px;  
+}
