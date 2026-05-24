@@ -7,6 +7,7 @@ Features:
     - Compatible with screen readers
     - Add, Clear and Help buttons in main controls container
     - List items count
+    - Option to show and hide main controls for better UX
     - Toggling between Complete/Incomplete modes
     - Toggling between Edit/Save modes
     - Inline editing for individual items
@@ -23,5 +24,8 @@ Technologies used
     - HTML5
     - CSS3 (Flexbox)
     - JavaScript (ES6)
+
+Future updates:
+    - Separate lists for complete and incomplete tasks
 
 

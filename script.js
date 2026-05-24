@@ -9,6 +9,7 @@ const addButton = document.querySelector("#add-btn");
 const clearButton = document.querySelector("#clear-btn");
 const todoList = document.querySelector("#todo-list");
 const listItemsHeading = document.querySelector("#list-items-heading");
+const toggleButton = document.querySelector("#toggle-btn");
 
 //Selecting dialog box elements
 const helpDialog = document.querySelector("#help-dialog");
@@ -23,6 +24,12 @@ const liveRegion = document.querySelector("#live-region");
 //Add aria label to main input
 mainInput.focus();
 mainInput.setAttribute("aria-label", "Enter todo here.");
+
+//Default display state of controls
+let controlsVisible = true;
+
+//Default text for toggle button
+toggleButton.textContent = "HIDE MAIN CONTROLS";
 
 //Create key for storing current todos array in local storage
 const storageKey = "todos";
@@ -96,7 +103,7 @@ function addTodos(event) {
       liveRegion.textContent = "";
       setTimeout(() => {
         liveRegion.textContent =
-          "Item added. Complete, Edit and Delete buttons available.";
+          "Item added. Complete, Edit and Delete available.";
       }, 100);
     }
 
@@ -126,11 +133,22 @@ function clearTodos() {
     }, 100);
   }
 
-  mainInput.focus();
-
   saveTodos();
   renderTodos();
 }
+
+//Add event listener to toggle button
+toggleButton.addEventListener("click", () => {
+  controlsVisible = !controlsVisible;
+  if (!controlsVisible) {
+    liveRegion.textContent = "Main controls visible.";
+  } else {
+    liveRegion.textContent = "Main controls hidden.";
+  }
+
+  saveTodos();
+  renderTodos();
+});
 
 //*****************************
 //*****************************
@@ -148,16 +166,29 @@ function renderTodos() {
   //Clear list contents
   todoList.innerHTML = "";
 
-  //Check if at least one todo is in the editing state
-  //Toggle visibility of main container and list items heading accordingly
-  const isEditing = todos.some((todo) => todo.editing);
-  if (isEditing) {
-    mainControlsContainer.classList.add("hidden");
-    listItemsHeading.classList.add("hidden");
-  } else {
+  //Control visibility of main controls
+  if (controlsVisible) {
     mainControlsContainer.classList.remove("hidden");
-    listItemsHeading.classList.remove("hidden");
+    toggleButton.textContent = "HIDE MAIN CONTROLS";
+  } else {
+    mainControlsContainer.classList.add("hidden");
+    toggleButton.textContent = "SHOW MAIN CONTROLS";
   }
+
+  //Check if at least one todo is in the editing state
+  const isEditing = todos.some((todo) => todo.editing);
+
+  //Modify heading according to editing state
+  if (isEditing) {
+    listItemsHeading.textContent = "EDITING ITEM";
+  } else {
+    displayTodoCount();
+  }
+
+  //Disable some main controls when app is in editing state
+  mainInput.disabled = isEditing;
+  addButton.disabled = isEditing;
+  clearButton.disabled = isEditing;
 
   //Loop through todos array
   todos.forEach((todo) => {
@@ -264,7 +295,9 @@ function renderTodos() {
         liveRegion.text = "";
         setTimeout(() => {
           liveRegion.textContent =
-            "Editing " + todo.text + ". Save and cancel buttons available.";
+            "Editing " +
+            todo.text +
+            ". Save and cancel available. Add and Clear controls unavailable.";
         }, 100);
       });
 
@@ -277,6 +310,8 @@ function renderTodos() {
 
       //Editing
     } else {
+      //Modify list items heading
+
       let inlineInput = document.createElement("input");
       inlineInput.maxLength = 20;
       inlineInput.value = todo.text;
@@ -304,7 +339,8 @@ function renderTodos() {
           //Turn off editing and reset complete state to false
           todo.editing = false;
           todo.completed = false;
-          liveRegion.textContent = "Saving " + todo.text;
+          liveRegion.textContent =
+            "Saving " + todo.text + ". Add and Clear controls available.";
           toggleVisibility(todo.id);
         }
       }
@@ -358,9 +394,6 @@ function renderTodos() {
     //Disable Complete and Delete button functionality but keep focusable
     //Change aria labels for buttons
   });
-
-  //Call displayTodoCount();
-  displayTodoCount();
 }
 
 //******************************************************************** *//
@@ -433,7 +466,16 @@ function saveTodos() {
 function loadTodos() {
   const storedData = localStorage.getItem(storageKey);
 
+  //Function for loading and parsing todos
   if (storedData !== null) {
     todos = JSON.parse(storedData);
   }
+
+  //Ensure that items are rendered with current text, id and completed status.
+  //Set editing to false and visible to true;
+  todos = todos.map((todo) => {
+    todo.editing = false;
+    todo.visible = true;
+    return todo;
+  });
 }
