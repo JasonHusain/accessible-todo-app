@@ -141,9 +141,9 @@ function clearTodos() {
 toggleButton.addEventListener("click", () => {
   controlsVisible = !controlsVisible;
   if (!controlsVisible) {
-    liveRegion.textContent = "Main controls visible.";
-  } else {
     liveRegion.textContent = "Main controls hidden.";
+  } else {
+    liveRegion.textContent = "Main controls visible.";
   }
 
   saveTodos();

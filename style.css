@@ -129,6 +129,9 @@ body{
 
 /* Colors for CLOSE button in Help dialog */
 #close-btn{
+    display: flex; 
+    align-items: center; 
+    justify-content: center;  
     background-color: white;
     border: 3px solid black;    
     color: black; 
@@ -141,7 +144,6 @@ body{
 /* Hover and focus pseudo classes for buttons */
 .main-btn:hover, 
 .todo-btn:hover,
-#toggle-btn:hover, 
 .main-btn:focus, 
 .todo-btn:focus{
    border: 3px solid black;  
