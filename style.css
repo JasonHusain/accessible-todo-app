@@ -127,16 +127,6 @@ body{
     margin: 0;  
 }
 
-/* Colors for CLOSE button in Help dialog */
-#close-btn{
-    display: flex; 
-    align-items: center; 
-    justify-content: center;  
-    background-color: white;
-    border: 3px solid black;    
-    color: black; 
-
-}
 
 
 
@@ -256,19 +246,48 @@ body{
  }
 
 /* Help dialog styles */
-#help-dialog{
+#help-dialog[open]{
+    display: flex; 
+    flex-direction: column;  
+    height: 90dvh;  
     background-color: black; 
     color: white;  
     font-family: Arial, Helvetica, sans-serif; 
     font-size: 243m;      
 }
 
+#instruction-container{
+    display: flex;  
+    flex-direction: column; 
+    flex: 1; 
+    border: 2px solid white;  
+    width: 100%; 
+    max-height: 100dvh; 
+    min-height: 0;     
+    overflow-y: auto;     
+}
+
+
 .instruction-item{
     margin: 10px;  
 }
 
 /* Format Help dialog text */
-.instructions-subheading, 
-.mode-heading {
-    margin-top: 50px;  
+.instruction-paragraph, 
+.instruction-subheading, 
+.mode-heading{
+    padding-left: 5%; 
+    padding-right: 5%;     
+}
+
+/* Colors and styles for CLOSE button in Help dialog */
+#close-btn{
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    flex-shrink: 0;  
+    margin-top: 5%; 
+    background-color: white;
+    border: 3px solid black;    
+    color: black; 
 }
