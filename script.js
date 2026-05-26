@@ -178,17 +178,25 @@ function renderTodos() {
   //Check if at least one todo is in the editing state
   const isEditing = todos.some((todo) => todo.editing);
 
-  //Modify heading according to editing state
+  //Modify layout according to editing state
   if (isEditing) {
+    mainControlsContainer.classList.add("hidden");
+    toggleButton.classList.add("hidden");
     listItemsHeading.textContent = "EDITING ITEM";
   } else {
+    toggleButton.classList.remove("hidden");
+
+    //Preserve user's choice for showing/hiding main controls
+    if (controlsVisible) {
+      mainControlsContainer.classList.remove("hidden");
+    } else {
+      mainControlsContainer.classList.add("hidden");
+    }
+
     displayTodoCount();
   }
 
   //Disable some main controls when app is in editing state
-  mainInput.disabled = isEditing;
-  addButton.disabled = isEditing;
-  clearButton.disabled = isEditing;
 
   //Loop through todos array
   todos.forEach((todo) => {
@@ -297,7 +305,7 @@ function renderTodos() {
           liveRegion.textContent =
             "Editing " +
             todo.text +
-            ". Save and cancel available. Add and Clear controls unavailable.";
+            ". Save and cancel available. Main controls and toggle unavailable.";
         }, 100);
       });
 

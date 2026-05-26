@@ -93,14 +93,6 @@ body{
     border-radius: 10%;   
 }
 
-/* Disabled pseudoclasses for Main Input, Add Button and Clear Button */
-#main-input:disabled, 
-#add-btn:disabled, 
-#clear-btn:disabled{
-    opacity: 0.5; 
-    cursor: not-allowed;
-}
-
 /* Adjust width of toggle button */
 #toggle-btn {
     display: flex; 
