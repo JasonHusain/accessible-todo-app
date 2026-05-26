@@ -321,7 +321,7 @@ function renderTodos() {
       //Modify list items heading
 
       let inlineInput = document.createElement("input");
-      inlineInput.maxLength = 20;
+      inlineInput.maxLength = 30;
       inlineInput.value = todo.text;
 
       //Modify edit button properties
