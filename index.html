@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="style.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>EasyTodos | Simple, accessible task management</title>
 </head>
 <body>
     <div id="app-container">
@@ -34,11 +34,13 @@
 
     </div>  
     
-    <dialog id="help-dialog">
+    <dialog id="help-dialog" aria-labelledby="instructions-heading">
 
         
         <h1 id="instructions-heading" tabindex="-1">HOW TO USE THIS APP</h1>
             <div id="instruction-container">
+                
+                <p class="instruction-paragraph">Welcome to EasyTodos, a simple and accessible task management app. </p>
 
                 <p class="instruction-paragraph">
                     This app is designed to provide simple, accessible task management with minimal complexity. 
@@ -99,7 +101,7 @@
                 <ul class="instruction-list">
                     <li class="instruction-item">Use the "SAVE" button or press "Enter" to save changes and disable editing mode.</li>
                     <li class="instruction-item">If the text field is empty, the original text will be restored upon saving.</li>
-                    <li class="instruction-item">Press the CANCEL button or the "Escape" key to discard changes and disable editing</li>        
+                    <li class="instruction-item">Use the CANCEL button or press the "Escape" key to discard changes and disable editing</li>        
                 </ul>
             
             </div>
