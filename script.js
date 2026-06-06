@@ -115,7 +115,7 @@ function addTodos(event) {
   //Save current data and call renderTodos();
   saveTodos();
   renderTodos();
-}
+} //End of addTodos() function definition
 
 //Define clearTodos() function
 function clearTodos() {
@@ -135,7 +135,7 @@ function clearTodos() {
 
   saveTodos();
   renderTodos();
-}
+} //End of clearTodos() function definition
 
 //Add event listener to toggle button
 toggleButton.addEventListener("click", () => {
@@ -206,9 +206,8 @@ function renderTodos() {
 
     //Create list item
     //Add class for styling
-    const listItem = document.createElement("li");
-    todoList.appendChild(listItem);
-    listItem.classList.add("todo-item");
+    const listItem = createTodoItem(todo);
+    todoList.append(listItem);
 
     //Hide main container and list items heading if any todo is editing
     //If visible is false, hide non-editing todos and main controls container
@@ -402,6 +401,14 @@ function renderTodos() {
     //Disable Complete and Delete button functionality but keep focusable
     //Change aria labels for buttons
   });
+} //End of renderTodo() function definition
+
+//Helper function to build and display todo items
+function createTodoItem(todo) {
+  const listItem = document.createElement("li");
+  todoList.appendChild(listItem);
+  listItem.classList.add("todo-item");
+  return listItem;
 }
 
 //******************************************************************** *//
