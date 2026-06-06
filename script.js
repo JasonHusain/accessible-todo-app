@@ -334,41 +334,23 @@ function renderTodos() {
       inlineInput.classList.add("inline-input");
       inlineInput.focus();
 
-      //Function to handle edits with "Save" button or "Enter" key
-      function handleEdit(event) {
-        let newValue = inlineInput.value.trim();
-        if (event.type === "click" || event.key === "Enter") {
-          event.preventDefault();
-          if (newValue !== "") {
-            todo.text = newValue;
-          }
-
-          //Turn off editing and reset complete state to false
-          todo.editing = false;
-          todo.completed = false;
-          liveRegion.textContent =
-            "Saving " + todo.text + ". Add and Clear controls available.";
-          toggleVisibility(todo.id);
-        }
-      }
-
-      //Function to handle cancelling changes with "Cancel" button or "Escape" key
-      function handleCancel(event) {
-        if (event.type === "click" || event.key === "Escape") {
-          event.preventDefault();
-          cancelEdit(todo.id);
-          toggleVisibility(todo.id);
-          liveRegion.textContent = "Changes discarded.";
-        }
-      }
-
       //Event listeners for editing
-      editButton.addEventListener("click", handleEdit);
-      inlineInput.addEventListener("keydown", handleEdit);
+      editButton.addEventListener("click", () => {
+        handleEdit(todo, inlineInput, event);
+      });
+
+      inlineInput.addEventListener("keydown", () => {
+        handleEdit(todo, inlineInput, event);
+      });
 
       //Event listeners for cancelling changes
-      cancelButton.addEventListener("click", handleCancel);
-      inlineInput.addEventListener("keydown", handleCancel);
+      cancelButton.addEventListener("click", () => {
+        handleCancel(todo, event);
+      });
+
+      inlineInput.addEventListener("keydown", () => {
+        handleCancel(todo, event);
+      });
 
       //Listen for changes in inline input field.
       //Screen reader should read Save (current input)
@@ -402,6 +384,34 @@ function renderTodos() {
     //Change aria labels for buttons
   });
 } //End of renderTodo() function definition
+
+//Function to handle edits with "Save" button or "Enter" key
+function handleEdit(todo, inlineInput, event) {
+  let newValue = inlineInput.value.trim();
+  if (event.type === "click" || event.key === "Enter") {
+    event.preventDefault();
+    if (newValue !== "") {
+      todo.text = newValue;
+    }
+
+    //Turn off editing and reset complete state to false
+    todo.editing = false;
+    todo.completed = false;
+    liveRegion.textContent =
+      "Saving " + todo.text + ". Add and Clear controls available.";
+    toggleVisibility(todo.id);
+  }
+}
+
+//Function to handle cancelling changes with "Cancel" button or "Escape" key
+function handleCancel(todo, event) {
+  if (event.type === "click" || event.key === "Escape") {
+    event.preventDefault();
+    cancelEdit(todo.id);
+    toggleVisibility(todo.id);
+    liveRegion.textContent = "Changes discarded.";
+  }
+}
 
 //Helper function to build and display todo items
 function createTodoItem(todo) {
