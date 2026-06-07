@@ -312,13 +312,14 @@ function createTodoItem(todo) {
       textSpan.classList.add("todo-span-incomplete");
       completedStatus.textContent = ", Not completed";
     } else {
-      completeButton.textContent = "NOT COMPLETE";
       textSpan.classList.add("todo-span-completed");
+      completeButton.textContent = "NOT COMPLETE";
       completedStatus.textContent = ", Completed";
       completeButton.setAttribute(
         "aria-label",
         "Mark " + todo.text + " as incomplete"
       );
+      editButton.classList.add("hidden");
     }
 
     //Attach event listeners to Complete, Edit and Delete buttons
