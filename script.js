@@ -209,180 +209,13 @@ function renderTodos() {
     const listItem = createTodoItem(todo);
     todoList.append(listItem);
 
+    //Hide non-editing items
     //Hide main container and list items heading if any todo is editing
     //If visible is false, hide non-editing todos and main controls container
     if (!todo.visible) {
       listItem.classList.add("hidden");
     }
-
-    //Create a container for theComplete, Edit and Delete buttons
-    const todoButtonContainer = document.createElement("div");
-    todoButtonContainer.classList.add("todo-btn-container");
-
-    //Create Complete, Edit and Delete buttons
-    const completeButton = document.createElement("button");
-    const editButton = document.createElement("button");
-    const deleteButton = document.createElement("button");
-    const cancelButton = document.createElement("button");
-
-    //Store buttons in a collection
-    const todoButtons = [
-      completeButton,
-      editButton,
-      deleteButton,
-      cancelButton
-    ];
-
-    //Add classes for styling buttons
-    todoButtons.forEach((button) => {
-      button.classList.add("todo-btn");
-    });
-
-    //***********************************************************/
-    //Toggle between span and input based on editing state
-    //Toggle span colors and text based on complete state
-
-    //Not editing
-    if (!todo.editing) {
-      //Append span to list item
-      //Add text span class flor layout
-      //Make span focusable
-      let textSpan = document.createElement("span");
-      let completedStatus = document.createElement("span");
-
-      //Add classes to text spans
-      textSpan.classList.add("todo-span");
-      completedStatus.classList.add("sr-only");
-
-      //Store todo text inside main span
-      textSpan.textContent = todo.text;
-
-      //Make text span focusable
-      textSpan.tabIndex = 0;
-
-      completeButton.textContent = "COMPLETE";
-      completeButton.setAttribute("aria-label", "Complete " + todo.text);
-
-      //Edit button should read Edit. Add correct label.
-      editButton.textContent = "EDIT";
-      editButton.setAttribute("aria-label", "Edit " + todo.text);
-
-      deleteButton.textContent = "DELETE";
-      deleteButton.setAttribute("aria-label", "Delete " + todo.text);
-
-      //Append Completed Status label for screen readers
-      listItem.appendChild(textSpan);
-      textSpan.appendChild(completedStatus);
-
-      //Nested control flow statements for complete/incomplete tasks when not editing
-      //Add appropriate styling and completed status span
-      //Make completed status span focusable
-      if (!todo.completed) {
-        textSpan.classList.add("todo-span-incomplete");
-        completedStatus.textContent = ", Not completed";
-      } else {
-        completeButton.textContent = "NOT COMPLETE";
-        textSpan.classList.add("todo-span-completed");
-        completedStatus.textContent = ", Completed";
-        completeButton.setAttribute(
-          "aria-label",
-          "Mark " + todo.text + " as incomplete"
-        );
-      }
-
-      //Attach event listeners to Complete, Edit and Delete buttons
-      completeButton.addEventListener("click", () => {
-        toggleComplete(todo.id);
-      });
-
-      //Switch to edit mode when edit button is clicked.
-      editButton.addEventListener("click", () => {
-        todo.editing = true;
-        toggleVisibility(todo.id);
-        liveRegion.text = "";
-        setTimeout(() => {
-          liveRegion.textContent =
-            "Editing " +
-            todo.text +
-            ". Save and cancel available. Main controls and toggle unavailable.";
-        }, 100);
-      });
-
-      deleteButton.addEventListener("click", () => {
-        deleteTodo(todo.id);
-      });
-
-      //Append View mode buttons to button container
-      todoButtonContainer.append(completeButton, editButton, deleteButton);
-
-      //Editing
-    } else {
-      //Modify list items heading
-
-      let inlineInput = document.createElement("input");
-      inlineInput.maxLength = 30;
-      inlineInput.value = todo.text;
-
-      //Modify edit button properties
-      editButton.textContent = "SAVE";
-      editButton.setAttribute("aria-label", "Save " + inlineInput.value);
-
-      cancelButton.textContent = "CANCEL";
-      cancelButton.setAttribute("aria-label", "Cancel edit.");
-
-      listItem.appendChild(inlineInput);
-      inlineInput.classList.add("inline-input");
-      inlineInput.focus();
-
-      //Event listeners for editing
-      editButton.addEventListener("click", () => {
-        handleEdit(todo, inlineInput, event);
-      });
-
-      inlineInput.addEventListener("keydown", () => {
-        handleEdit(todo, inlineInput, event);
-      });
-
-      //Event listeners for cancelling changes
-      cancelButton.addEventListener("click", () => {
-        handleCancel(todo, event);
-      });
-
-      inlineInput.addEventListener("keydown", () => {
-        handleCancel(todo, event);
-      });
-
-      //Listen for changes in inline input field.
-      //Screen reader should read Save (current input)
-      inlineInput.addEventListener("input", () => {
-        let newValue = inlineInput.value.trim();
-        if (newValue !== "") {
-          editButton.setAttribute("aria-label", "Save " + newValue);
-        } else {
-          editButton.setAttribute("aria-label", "Save " + todo.text);
-        }
-      });
-
-      //Event listener for Cancel button
-      // cancelButton.addEventListener("click", () => {
-      //   cancelEdit(todo.id);
-      //   toggleVisibility(todo.id);
-      //   liveRegion.textContent = "Changes discarded.";
-      // });
-
-      //Append Save and Cancel buttons to button container.
-      todoButtonContainer.append(editButton, cancelButton);
-    }
-
-    //Append these buttons to the container
-    //Append button container to list item
-    listItem.appendChild(todoButtonContainer);
-
-    //Hide non-editing items
-
-    //Disable Complete and Delete button functionality but keep focusable
-    //Change aria labels for buttons
-  });
+  }); //End of forEach loop for building each list item
 } //End of renderTodo() function definition
 
 //Function to handle edits with "Save" button or "Enter" key
@@ -418,6 +251,158 @@ function createTodoItem(todo) {
   const listItem = document.createElement("li");
   todoList.appendChild(listItem);
   listItem.classList.add("todo-item");
+  //Create a container for theComplete, Edit and Delete buttons
+  const todoButtonContainer = document.createElement("div");
+  todoButtonContainer.classList.add("todo-btn-container");
+
+  //Create Complete, Edit and Delete buttons
+  const completeButton = document.createElement("button");
+  const editButton = document.createElement("button");
+  const deleteButton = document.createElement("button");
+  const cancelButton = document.createElement("button");
+
+  //Store buttons in a collection
+  const todoButtons = [completeButton, editButton, deleteButton, cancelButton];
+
+  //Add classes for styling buttons
+  todoButtons.forEach((button) => {
+    button.classList.add("todo-btn");
+  });
+
+  //***********************************************************/
+  //Toggle between span and input based on editing state
+  //Toggle span colors and text based on complete state
+
+  //Not editing
+  if (!todo.editing) {
+    //Append span to list item
+    //Add text span class flor layout
+    //Make span focusable
+    let textSpan = document.createElement("span");
+    let completedStatus = document.createElement("span");
+
+    //Add classes to text spans
+    textSpan.classList.add("todo-span");
+    completedStatus.classList.add("sr-only");
+
+    //Store todo text inside main span
+    textSpan.textContent = todo.text;
+
+    //Make text span focusable
+    textSpan.tabIndex = 0;
+
+    completeButton.textContent = "COMPLETE";
+    completeButton.setAttribute("aria-label", "Complete " + todo.text);
+
+    //Edit button should read Edit. Add correct label.
+    editButton.textContent = "EDIT";
+    editButton.setAttribute("aria-label", "Edit " + todo.text);
+
+    deleteButton.textContent = "DELETE";
+    deleteButton.setAttribute("aria-label", "Delete " + todo.text);
+
+    //Append Completed Status label for screen readers
+    listItem.appendChild(textSpan);
+    textSpan.appendChild(completedStatus);
+
+    //Nested control flow statements for complete/incomplete tasks when not editing
+    //Add appropriate styling and completed status span
+    //Make completed status span focusable
+    if (!todo.completed) {
+      textSpan.classList.add("todo-span-incomplete");
+      completedStatus.textContent = ", Not completed";
+    } else {
+      completeButton.textContent = "NOT COMPLETE";
+      textSpan.classList.add("todo-span-completed");
+      completedStatus.textContent = ", Completed";
+      completeButton.setAttribute(
+        "aria-label",
+        "Mark " + todo.text + " as incomplete"
+      );
+    }
+
+    //Attach event listeners to Complete, Edit and Delete buttons
+    completeButton.addEventListener("click", () => {
+      toggleComplete(todo.id);
+    });
+
+    //Switch to edit mode when edit button is clicked.
+    editButton.addEventListener("click", () => {
+      todo.editing = true;
+      toggleVisibility(todo.id);
+      liveRegion.text = "";
+      setTimeout(() => {
+        liveRegion.textContent =
+          "Editing " +
+          todo.text +
+          ". Save and cancel available. Main controls and toggle unavailable.";
+      }, 100);
+    });
+
+    deleteButton.addEventListener("click", () => {
+      deleteTodo(todo.id);
+    });
+
+    //Append View mode buttons to button container
+    todoButtonContainer.append(completeButton, editButton, deleteButton);
+
+    //Editing
+  } else {
+    //Modify list items heading
+
+    let inlineInput = document.createElement("input");
+    inlineInput.maxLength = 30;
+    inlineInput.value = todo.text;
+    setTimeout(() => inlineInput.focus(), 0);
+
+    //Modify edit button properties
+    editButton.textContent = "SAVE";
+    editButton.setAttribute("aria-label", "Save " + inlineInput.value);
+
+    cancelButton.textContent = "CANCEL";
+    cancelButton.setAttribute("aria-label", "Cancel edit.");
+
+    listItem.appendChild(inlineInput);
+    inlineInput.classList.add("inline-input");
+    // inlineInput.focus();
+
+    //Event listeners for editing
+    editButton.addEventListener("click", () => {
+      handleEdit(todo, inlineInput, event);
+    });
+
+    inlineInput.addEventListener("keydown", () => {
+      handleEdit(todo, inlineInput, event);
+    });
+
+    //Event listeners for cancelling changes
+    cancelButton.addEventListener("click", () => {
+      handleCancel(todo, event);
+    });
+
+    inlineInput.addEventListener("keydown", () => {
+      handleCancel(todo, event);
+    });
+
+    //Listen for changes in inline input field.
+    //Screen reader should read Save (current input)
+    inlineInput.addEventListener("input", () => {
+      let newValue = inlineInput.value.trim();
+      if (newValue !== "") {
+        editButton.setAttribute("aria-label", "Save " + newValue);
+      } else {
+        editButton.setAttribute("aria-label", "Save " + todo.text);
+      }
+    });
+
+    //Append Save and Cancel buttons to button container.
+    todoButtonContainer.append(editButton, cancelButton);
+  }
+
+  //Append these buttons to the container
+  //Append button container to list item
+  listItem.appendChild(todoButtonContainer);
+
   return listItem;
 }
 
