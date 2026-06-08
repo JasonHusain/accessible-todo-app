@@ -7,6 +7,7 @@ const mainInput = document.querySelector("#main-input");
 const helpButton = document.querySelector("#help-btn");
 const addButton = document.querySelector("#add-btn");
 const clearButton = document.querySelector("#clear-btn");
+const switchListButton = document.querySelector("#switch-list-btn");
 const todoList = document.querySelector("#todo-list");
 const listItemsHeading = document.querySelector("#list-items-heading");
 const toggleButton = document.querySelector("#toggle-btn");
@@ -26,10 +27,14 @@ mainInput.focus();
 mainInput.setAttribute("aria-label", "Enter todo here.");
 
 //Default display state of controls
-let controlsVisible = true;
-
 //Default text for toggle button
+let controlsVisible = true;
 toggleButton.textContent = "HIDE MAIN CONTROLS";
+
+//Default display state for Completed section
+//Default text for switch list button
+let showCompleted = false;
+switchListButton.textContent = "SHOW COMPLETED";
 
 //Create key for storing current todos array in local storage
 const storageKey = "todos";
@@ -150,19 +155,36 @@ toggleButton.addEventListener("click", () => {
   renderTodos();
 });
 
+//Add event listener for switch list button
+switchListButton.addEventListener("click", () => {
+  showCompleted = !showCompleted;
+  if (!showCompleted) {
+    liveRegion.textContent = "Active todos visible.";
+  } else {
+    liveRegion.textContent = "Completed todos visible.";
+  }
+
+  saveTodos();
+  renderTodos();
+});
+
 //*****************************
 //*****************************
 //Define a function to display the current todo count
 function displayTodoCount() {
   //Make list items heading focusable
   //Target list heading and add todo count
-  listItemsHeading.textContent = "NUMBER OF ITEMS: " + todos.length;
+  listItemsHeading.textContent = showCompleted
+    ? "COMPLETED ITEMS: " + todos.length
+    : "ACTIVE ITEMS: " + todos.length;
 }
 
 //***********************************
 //***********************************
 //Define renderTodos() function
 function renderTodos() {
+  displayTodoCount();
+
   //Clear list contents
   todoList.innerHTML = "";
 
@@ -174,6 +196,11 @@ function renderTodos() {
     mainControlsContainer.classList.add("hidden");
     toggleButton.textContent = "SHOW MAIN CONTROLS";
   }
+
+  //Change text on switch list button
+  switchListButton.textContent = showCompleted
+    ? "SHOW ACTIVE"
+    : "SHOW COMPLETED";
 
   //Check if at least one todo is in the editing state
   const isEditing = todos.some((todo) => todo.editing);
@@ -192,11 +219,7 @@ function renderTodos() {
     } else {
       mainControlsContainer.classList.add("hidden");
     }
-
-    displayTodoCount();
   }
-
-  //Disable some main controls when app is in editing state
 
   //Loop through todos array
   todos.forEach((todo) => {
@@ -418,9 +441,11 @@ function toggleComplete(id) {
   //Announce Completed state when Complete button is clicked.
   let isCompleted = selectedTodo.completed;
   if (!isCompleted) {
-    liveRegion.textContent = selectedTodo.text + " Completed.";
+    liveRegion.textContent =
+      selectedTodo.text + " Completed. Editing unavailable.";
   } else {
-    liveRegion.textContent = selectedTodo.text + " Not completed.";
+    liveRegion.textContent =
+      selectedTodo.text + " Not completed. Editing available.";
   }
 
   //Toggle between Complete/Incomplete states
