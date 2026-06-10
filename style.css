@@ -16,10 +16,10 @@ body{
     gap: 5px;  
 }
 
-/*Main container styles*/
-#main-controls-container{ 
-    display: flex; 
-    flex-direction: column; 
+/*Main controls and navigation container styles*/
+#main-controls-container, 
+#navigation-controls-container{ 
+    display: flex;     
     align-items: center;  
     border-radius: 10px; 
     margin-bottom: 10px; 
@@ -27,6 +27,18 @@ body{
     background-color: #00a2ff;   
     border: 3px solid black; 
 }
+
+/* Flex directions for main controls and navigation controls/help */
+#main-controls-container {
+    flex-direction: column;
+}
+
+#navigation-controls-container{
+    flex-direction: row; 
+    justify-content: center;
+}
+
+
 
 #main-btn-container{
     display: flex; 
@@ -73,8 +85,9 @@ body{
     font-size: 30px;  
 }  
 
- /*Prevent main controls and list heading from growing or shrinking when screen height changes*/  */
+ /*Prevent main controls, navigation controls and list heading from growing or shrinking when screen height changes*/  */
 #main-controls-container, 
+#navigation-controls-container,
 #list-items-heading {
     flex-grow: 0;  
     flex-shrink: 0; 
@@ -96,7 +109,8 @@ body{
 }
 
 /* Increase width of button for switching lists*/
-#switch-list-btn{
+#active-list-btn,
+#completed-list-btn{
     width: 100px; 
 }
 
@@ -139,14 +153,6 @@ body{
     background-color: white; 
     color: black;  
 }  
-
-
-
-
-.disabled-btn{
-    pointer-events: none;
-    opacity: 0.5;  
-}
 
 
 /*Todo items*/

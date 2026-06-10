@@ -7,7 +7,8 @@ const mainInput = document.querySelector("#main-input");
 const helpButton = document.querySelector("#help-btn");
 const addButton = document.querySelector("#add-btn");
 const clearButton = document.querySelector("#clear-btn");
-const switchListButton = document.querySelector("#switch-list-btn");
+const activeListButton = document.querySelector("#active-list-btn");
+const completedListButton = document.querySelector("#completed-list-btn");
 const todoList = document.querySelector("#todo-list");
 const listItemsHeading = document.querySelector("#list-items-heading");
 const toggleButton = document.querySelector("#toggle-btn");
@@ -34,7 +35,6 @@ toggleButton.textContent = "HIDE MAIN CONTROLS";
 //Default display state for Completed section
 //Default text for switch list button
 let showCompleted = false;
-switchListButton.textContent = "SHOW COMPLETED";
 
 //Create key for storing current todos array in local storage
 const storageKey = "todos";
@@ -156,13 +156,18 @@ toggleButton.addEventListener("click", () => {
 });
 
 //Add event listener for switch list button
-switchListButton.addEventListener("click", () => {
-  showCompleted = !showCompleted;
-  if (!showCompleted) {
-    liveRegion.textContent = "Active todos visible.";
-  } else {
-    liveRegion.textContent = "Completed todos visible.";
-  }
+activeListButton.addEventListener("click", () => {
+  console.log("Event fired.");
+  showCompleted = false;
+  liveRegion.textContent = "Active items visible.";
+
+  saveTodos();
+  renderTodos();
+});
+
+completedListButton.addEventListener("click", () => {
+  showCompleted = true;
+  liveRegion.textContent = "Completed items visible.";
 
   saveTodos();
   renderTodos();
@@ -196,11 +201,6 @@ function renderTodos() {
     mainControlsContainer.classList.add("hidden");
     toggleButton.textContent = "SHOW MAIN CONTROLS";
   }
-
-  //Change text on switch list button
-  switchListButton.textContent = showCompleted
-    ? "SHOW ACTIVE"
-    : "SHOW COMPLETED";
 
   //Check if at least one todo is in the editing state
   const isEditing = todos.some((todo) => todo.editing);
