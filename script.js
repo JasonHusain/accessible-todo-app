@@ -3,16 +3,18 @@ const appContainer = document.querySelector("#app-container");
 const mainControlsContainer = document.querySelector(
   "#main-controls-container"
 );
+const navigationControlsContainer = document.querySelector(
+  "#navigation-controls-container"
+);
 const mainInput = document.querySelector("#main-input");
 const helpButton = document.querySelector("#help-btn");
 const addButton = document.querySelector("#add-btn");
 const clearButton = document.querySelector("#clear-btn");
 const activeListButton = document.querySelector("#active-list-btn");
 const completedListButton = document.querySelector("#completed-list-btn");
-const todoList = document.querySelector("#todo-list");
+const activeList = document.querySelector("#active-list");
+const completedList = document.querySelector("#completed-list");
 const listItemsHeading = document.querySelector("#list-items-heading");
-const toggleButton = document.querySelector("#toggle-btn");
-
 //Selecting dialog box elements
 const helpDialog = document.querySelector("#help-dialog");
 const instructionsHeading = document
@@ -26,11 +28,6 @@ const liveRegion = document.querySelector("#live-region");
 //Add aria label to main input
 mainInput.focus();
 mainInput.setAttribute("aria-label", "Enter todo here.");
-
-//Default display state of controls
-//Default text for toggle button
-let controlsVisible = true;
-toggleButton.textContent = "HIDE MAIN CONTROLS";
 
 //Default display state for Completed section
 //Default text for switch list button
@@ -142,19 +139,6 @@ function clearTodos() {
   renderTodos();
 } //End of clearTodos() function definition
 
-//Add event listener to toggle button
-toggleButton.addEventListener("click", () => {
-  controlsVisible = !controlsVisible;
-  if (!controlsVisible) {
-    liveRegion.textContent = "Main controls hidden.";
-  } else {
-    liveRegion.textContent = "Main controls visible.";
-  }
-
-  saveTodos();
-  renderTodos();
-});
-
 //Add event listener for switch list button
 activeListButton.addEventListener("click", () => {
   console.log("Event fired.");
@@ -176,31 +160,37 @@ completedListButton.addEventListener("click", () => {
 //*****************************
 //*****************************
 //Define a function to display the current todo count
-function displayTodoCount() {
+function updateListViewUI(activeTodos, completedTodos) {
   //Make list items heading focusable
   //Target list heading and add todo count
   listItemsHeading.textContent = showCompleted
-    ? "COMPLETED ITEMS: " + todos.length
-    : "ACTIVE ITEMS: " + todos.length;
+    ? "COMPLETED ITEMS: " + completedTodos.length
+    : "ACTIVE ITEMS: " + activeTodos.length;
+
+  //Change text on clear button, depending on list view
+  clearButton.textContent = showCompleted ? "CLEAR COMPLETED" : "CLEAR ACTIVE";
+
+  //Show/hide different lists, depending on view
+  if (!showCompleted) {
+    activeList.classList.remove("hidden");
+    completedList.classList.add("hidden");
+  } else {
+    activeList.classList.add("hidden");
+    completedList.classList.remove("hidden");
+  }
 }
 
 //***********************************
 //***********************************
 //Define renderTodos() function
 function renderTodos() {
-  displayTodoCount();
+  //Clear lists contents
+  activeList.innerHTML = "";
+  completedList.innerHTML = "";
 
-  //Clear list contents
-  todoList.innerHTML = "";
-
-  //Control visibility of main controls
-  if (controlsVisible) {
-    mainControlsContainer.classList.remove("hidden");
-    toggleButton.textContent = "HIDE MAIN CONTROLS";
-  } else {
-    mainControlsContainer.classList.add("hidden");
-    toggleButton.textContent = "SHOW MAIN CONTROLS";
-  }
+  //Derive active and completed todo arrays
+  const activeTodos = todos.filter((todo) => !todo.completed);
+  const completedTodos = todos.filter((todo) => todo.completed);
 
   //Check if at least one todo is in the editing state
   const isEditing = todos.some((todo) => todo.editing);
@@ -208,21 +198,15 @@ function renderTodos() {
   //Modify layout according to editing state
   if (isEditing) {
     mainControlsContainer.classList.add("hidden");
-    toggleButton.classList.add("hidden");
+    navigationControlsContainer.classList.add("hidden");
     listItemsHeading.textContent = "EDITING ITEM";
   } else {
-    toggleButton.classList.remove("hidden");
-
-    //Preserve user's choice for showing/hiding main controls
-    if (controlsVisible) {
-      mainControlsContainer.classList.remove("hidden");
-    } else {
-      mainControlsContainer.classList.add("hidden");
-    }
+    mainControlsContainer.classList.remove("hidden");
+    navigationControlsContainer.classList.remove("hidden");
   }
 
-  //Loop through todos array
-  todos.forEach((todo) => {
+  //Loop through activeTodos array
+  activeTodos.forEach((todo) => {
     //*********************************
     //Create and add list items and associated formatting and controls
     //********************************/
@@ -230,7 +214,7 @@ function renderTodos() {
     //Create list item
     //Add class for styling
     const listItem = createTodoItem(todo);
-    todoList.append(listItem);
+    activeList.append(listItem);
 
     //Hide non-editing items
     //Hide main container and list items heading if any todo is editing
@@ -239,6 +223,21 @@ function renderTodos() {
       listItem.classList.add("hidden");
     }
   }); //End of forEach loop for building each list item
+
+  //Loop through completedTodos array
+  completedTodos.forEach((todo) => {
+    //*********************************
+    //Create and add list items and associated formatting and controls
+    //********************************/
+
+    //Create list item
+    //Add class for styling
+    const listItem = createTodoItem(todo);
+    completedList.append(listItem);
+  }); //End of forEach loop for building each list item
+
+  //Helper to render UI for different list views
+  updateListViewUI(activeTodos, completedTodos);
 } //End of renderTodo() function definition
 
 //Function to handle edits with "Save" button or "Enter" key
@@ -272,7 +271,7 @@ function handleCancel(todo, event) {
 //Helper function to build and display todo items
 function createTodoItem(todo) {
   const listItem = document.createElement("li");
-  todoList.appendChild(listItem);
+  activeList.appendChild(listItem);
   listItem.classList.add("todo-item");
   //Create a container for theComplete, Edit and Delete buttons
   const todoButtonContainer = document.createElement("div");
