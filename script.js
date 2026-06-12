@@ -170,13 +170,17 @@ function updateListViewUI(activeTodos, completedTodos) {
   //Change text on clear button, depending on list view
   clearButton.textContent = showCompleted ? "CLEAR COMPLETED" : "CLEAR ACTIVE";
 
-  //Show/hide different lists, depending on view
+  //Show/hide different lists and style navigtion buttons, depending on view
   if (!showCompleted) {
     activeList.classList.remove("hidden");
     completedList.classList.add("hidden");
+    activeListButton.classList.add("current-list-btn");
+    completedListButton.classList.remove("current-list-btn");
   } else {
     activeList.classList.add("hidden");
     completedList.classList.remove("hidden");
+    completedListButton.classList.add("current-list-btn");
+    activeListButton.classList.remove("current-list-btn");
   }
 }
 
