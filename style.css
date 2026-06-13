@@ -22,10 +22,16 @@ body{
     display: flex;     
     align-items: center;  
     border-radius: 10px; 
-    margin-bottom: 10px; 
-    padding: 2%;  
+    margin-bottom: 20px; 
+    padding: 15px;  
     background-color: #00a2ff;   
     border: 3px solid black; 
+}
+
+/* Maintain layout of main controls container and center clear */
+.maintained-layout{
+    justify-content: center; 
+    height: 125px;  
 }
 
 /* Flex directions for main controls and navigation controls/help */

@@ -170,17 +170,30 @@ function updateListViewUI(activeTodos, completedTodos) {
   //Change text on clear button, depending on list view
   clearButton.textContent = showCompleted ? "CLEAR COMPLETED" : "CLEAR ACTIVE";
 
+  //Collection of elements to hide or remove based on completed state
+  const hidingElements = [mainInput, addButton, activeList];
+
   //Show/hide different lists and style navigtion buttons, depending on view
   if (!showCompleted) {
-    activeList.classList.remove("hidden");
+    // activeList.classList.remove("hidden");
+    hidingElements.forEach((element) => {
+      element.classList.remove("hidden");
+    });
+
     completedList.classList.add("hidden");
     activeListButton.classList.add("current-list-btn");
     completedListButton.classList.remove("current-list-btn");
   } else {
-    activeList.classList.add("hidden");
+    // activeList.classList.add("hidden");
+    hidingElements.forEach((element) => {
+      element.classList.add("hidden");
+    });
+
     completedList.classList.remove("hidden");
     completedListButton.classList.add("current-list-btn");
     activeListButton.classList.remove("current-list-btn");
+
+    mainControlsContainer.classList.add("maintained-layout");
   }
 }
 
