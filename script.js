@@ -121,23 +121,38 @@ function addTodos(event) {
 
 //Define clearTodos() function
 function clearTodos() {
-  //Clear todos + announcements for zero and non-zero array lengths
-  if (todos.length !== 0) {
-    todos = [];
-    liveRegion.textContent = "";
+  const visibleTodos = getVisibleTodos();
+
+  if (visibleTodos.length === 0) {
+    liveRegion.textContent = showCompleted
+      ? "Completed list is currently empty."
+      : "Active list is currently empty.";
+
+    return;
+  }
+
+  if (showCompleted) {
+    todos = todos.filter((todo) => !todo.completed);
     setTimeout(() => {
-      liveRegion.textContent = "All items  cleared.";
+      liveRegion.textContent = "Completed items cleared.";
     }, 100);
   } else {
-    liveRegion.textContent = "";
+    todos = todos.filter((todo) => todo.completed);
     setTimeout(() => {
-      liveRegion.textContent = "List is currently empty.";
+      liveRegion.textContent = "Active items cleared.";
     }, 100);
   }
 
   saveTodos();
   renderTodos();
-} //End of clearTodos() function definition
+}
+
+//Function to return visible list
+function getVisibleTodos() {
+  return showCompleted
+    ? todos.filter((todo) => todo.completed)
+    : todos.filter((todo) => !todo.completed);
+}
 
 //Add event listener for switch list button
 activeListButton.addEventListener("click", () => {
@@ -174,26 +189,31 @@ function updateListViewUI(activeTodos, completedTodos) {
   const hidingElements = [mainInput, addButton, activeList];
 
   //Show/hide different lists and style navigtion buttons, depending on view
-  if (!showCompleted) {
+  if (showCompleted) {
     // activeList.classList.remove("hidden");
-    hidingElements.forEach((element) => {
-      element.classList.remove("hidden");
-    });
-
-    completedList.classList.add("hidden");
-    activeListButton.classList.add("current-list-btn");
-    completedListButton.classList.remove("current-list-btn");
-  } else {
-    // activeList.classList.add("hidden");
     hidingElements.forEach((element) => {
       element.classList.add("hidden");
     });
 
     completedList.classList.remove("hidden");
-    completedListButton.classList.add("current-list-btn");
-    activeListButton.classList.remove("current-list-btn");
 
+    //Change style of completed buttons
+    activeListButton.classList.remove("current-list-btn");
+    completedListButton.classList.add("current-list-btn");
+
+    //Maintain main controls container dimensions
     mainControlsContainer.classList.add("maintained-layout");
+  } else {
+    // activeList.classList.add("hidden");
+    hidingElements.forEach((element) => {
+      element.classList.remove("hidden");
+    });
+
+    completedList.classList.add("hidden");
+
+    //Change style of active  buttons
+    completedListButton.classList.remove("current-list-btn");
+    activeListButton.classList.add("current-list-btn");
   }
 }
 
