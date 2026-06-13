@@ -372,7 +372,7 @@ function createTodoItem(todo) {
       completedStatus.textContent = ", Not completed";
     } else {
       textSpan.classList.add("todo-span-completed");
-      completeButton.textContent = "NOT COMPLETE";
+      completeButton.textContent = "ACTIVE";
       completedStatus.textContent = ", Completed";
       completeButton.setAttribute(
         "aria-label",
@@ -476,13 +476,9 @@ function toggleComplete(id) {
 
   //Announce Completed state when Complete button is clicked.
   let isCompleted = selectedTodo.completed;
-  if (!isCompleted) {
-    liveRegion.textContent =
-      selectedTodo.text + " Completed. Editing unavailable.";
-  } else {
-    liveRegion.textContent =
-      selectedTodo.text + " Not completed. Editing available.";
-  }
+  liveRegion.textContent = isCompleted
+    ? selectedTodo.text + " moved back to active list."
+    : selectedTodo.text + " marked completed. Moved to completed list.";
 
   //Toggle between Complete/Incomplete states
   todos = todos.map(
