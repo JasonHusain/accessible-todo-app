@@ -117,7 +117,17 @@ function addTodos(event) {
   //Save current data and call renderTodos();
   saveTodos();
   renderTodos();
+  scrollVisibleList();
 } //End of addTodos() function definition
+
+//Function to scroll list to bottom when content overflows
+function scrollVisibleList() {
+  const visibleList = showCompleted ? completedList : activeList;
+
+  setTimeout(() => {
+    visibleList.scrollTop = visibleList.scrollHeight;
+  }, 0);
+}
 
 //Define clearTodos() function
 function clearTodos() {
@@ -161,6 +171,7 @@ activeListButton.addEventListener("click", () => {
 
   saveTodos();
   renderTodos();
+  scrollVisibleList();
 });
 
 completedListButton.addEventListener("click", () => {
@@ -169,6 +180,7 @@ completedListButton.addEventListener("click", () => {
 
   saveTodos();
   renderTodos();
+  scrollVisibleList();
 });
 
 //*****************************
@@ -379,7 +391,7 @@ function createTodoItem(todo) {
       completedStatus.textContent = ", Completed";
       completeButton.setAttribute(
         "aria-label",
-        "Mark " + todo.text + " as incomplete"
+        "Mark " + todo.text + " as active"
       );
       editButton.classList.add("hidden");
     }
@@ -487,8 +499,6 @@ function toggleComplete(id) {
   todos = todos.map(
     (todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo) //Implicitly return true or false
   );
-
-  //Announce "(Task completed)" or "Task marked incomplete", depending on state
 
   saveTodos();
   renderTodos();
