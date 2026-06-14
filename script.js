@@ -156,9 +156,8 @@ function getVisibleTodos() {
 
 //Add event listener for switch list button
 activeListButton.addEventListener("click", () => {
-  console.log("Event fired.");
   showCompleted = false;
-  liveRegion.textContent = "Active items visible.";
+  liveRegion.textContent = "Active list selected.";
 
   saveTodos();
   renderTodos();
@@ -166,7 +165,7 @@ activeListButton.addEventListener("click", () => {
 
 completedListButton.addEventListener("click", () => {
   showCompleted = true;
-  liveRegion.textContent = "Completed items visible.";
+  liveRegion.textContent = "Completed list selected.";
 
   saveTodos();
   renderTodos();
@@ -203,6 +202,8 @@ function updateListViewUI(activeTodos, completedTodos) {
 
     //Maintain main controls container dimensions
     mainControlsContainer.classList.add("maintained-layout");
+
+    clearButton.setAttribute("aria-label", "Clear completed list.");
   } else {
     // activeList.classList.add("hidden");
     hidingElements.forEach((element) => {
@@ -214,6 +215,8 @@ function updateListViewUI(activeTodos, completedTodos) {
     //Change style of active  buttons
     completedListButton.classList.remove("current-list-btn");
     activeListButton.classList.add("current-list-btn");
+
+    clearButton.setAttribute("aria-label", "Clear active list.");
   }
 }
 
