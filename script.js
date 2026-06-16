@@ -81,6 +81,7 @@ function addTodos(event) {
       id: Date.now(),
       text: todoText,
       completed: false,
+      completedAt: null,
       editing: false,
       visible: true
     };
@@ -117,8 +118,18 @@ function addTodos(event) {
   //Save current data and call renderTodos();
   saveTodos();
   renderTodos();
-  scrollVisibleList();
+  scrollActiveList();
 } //End of addTodos() function definition
+
+//Function to scroll active todos when list items overflow. Call in "addTodos()"
+function scrollActiveList() {
+  if (activeList.scrollHeight > activeList.clientHeight) {
+    activeList.scrollTo({
+      top: activeList.scrollHeight,
+      behavior: "smooth"
+    });
+  }
+}
 
 //Function to scroll list to bottom when content overflows
 function scrollVisibleList() {
@@ -242,7 +253,11 @@ function renderTodos() {
 
   //Derive active and completed todo arrays
   const activeTodos = todos.filter((todo) => !todo.completed);
-  const completedTodos = todos.filter((todo) => todo.completed);
+
+  //Sort completed items in descending order
+  const completedTodos = todos
+    .filter((todo) => todo.completed)
+    .sort((a, b) => b.completedAt - a.completedAt);
 
   //Check if at least one todo is in the editing state
   const isEditing = todos.some((todo) => todo.editing);
@@ -495,10 +510,18 @@ function toggleComplete(id) {
     ? selectedTodo.text + " moved back to active list."
     : selectedTodo.text + " marked completed. Moved to completed list.";
 
-  //Toggle between Complete/Incomplete states
-  todos = todos.map(
-    (todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo) //Implicitly return true or false
+  //Toggle between Complete/Incomplete states. Add time stamps for sorting completed items.
+  todos = todos.map((todo) =>
+    todo.id === id
+      ? {
+          ...todo,
+          completed: !todo.completed,
+          completedAt: !todo.completed ? Date.now() : null
+        }
+      : todo
   );
+
+  console.log(todos);
 
   saveTodos();
   renderTodos();
