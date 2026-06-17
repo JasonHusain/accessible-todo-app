@@ -27,6 +27,8 @@ const liveRegion = document.querySelector("#live-region");
 
 //Live region announcement helper
 function announce(message) {
+  liveRegion.textContent = "";
+
   setTimeout(() => {
     liveRegion.textContent = message;
   }, 50);
