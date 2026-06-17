@@ -25,6 +25,13 @@ const closeButton = document.querySelector("#close-btn");
 //Select live region
 const liveRegion = document.querySelector("#live-region");
 
+//Live region announcement helper
+function announce(message) {
+  setTimeout(() => {
+    liveRegion.textContent = message;
+  }, 50);
+}
+
 //Add aria label to main input
 mainInput.focus();
 mainInput.setAttribute("aria-label", "Enter todo here.");
@@ -59,7 +66,7 @@ helpButton.addEventListener("click", () => {
 //Handle closing of modal
 helpDialog.addEventListener("close", () => {
   appContainer.classList.remove("hidden");
-  liveRegion.textContent = "Help dialog closed.";
+  announce("Help dialog closed");
   helpButton.focus();
 });
 
@@ -96,23 +103,19 @@ function addTodos(event) {
 
     //Announcements for adding items
     if (todoText === "") {
-      liveRegion.textContent = "";
-      setTimeout(() => {
-        liveRegion.textContent = "Enter text.";
-      }, 100);
-      // input.focus();
+      announce("Enter text."); // input.focus();
       // return;
     } else {
-      liveRegion.textContent = "";
-      setTimeout(() => {
-        liveRegion.textContent =
-          "Item added. Complete, Edit and Delete available.";
-      }, 100);
+      announce(newTodo.text + " added. Complete, edit and delete available.");
     }
 
     //Focus text area automatically after adding an item.
     //Return cursor to the beginning of text area
     mainInput.focus();
+
+    saveTodos();
+    renderTodos();
+
     scrollActiveList();
   }
 
@@ -138,23 +141,19 @@ function clearTodos() {
   const visibleTodos = getVisibleTodos();
 
   if (visibleTodos.length === 0) {
-    liveRegion.textContent = showCompleted
-      ? "Completed list is currently empty."
-      : "Active list is currently empty.";
+    showCompleted
+      ? announce("Completed list is currently empty.")
+      : announce("Active list is currently empty.");
 
     return;
   }
 
   if (showCompleted) {
     todos = todos.filter((todo) => !todo.completed);
-    setTimeout(() => {
-      liveRegion.textContent = "Completed items cleared.";
-    }, 100);
+    announce("Completed items cleared.");
   } else {
     todos = todos.filter((todo) => todo.completed);
-    setTimeout(() => {
-      liveRegion.textContent = "Active items cleared.";
-    }, 100);
+    announce("Active items cleared.");
   }
 
   saveTodos();
@@ -171,7 +170,7 @@ function getVisibleTodos() {
 //Add event listener for switch list button
 activeListButton.addEventListener("click", () => {
   showCompleted = false;
-  liveRegion.textContent = "Active list selected.";
+  announce("Active list selected.");
 
   saveTodos();
   renderTodos();
@@ -182,7 +181,7 @@ activeListButton.addEventListener("click", () => {
 
 completedListButton.addEventListener("click", () => {
   showCompleted = true;
-  liveRegion.textContent = "Completed list selected.";
+  announce("Completed list selected.");
 
   saveTodos();
   renderTodos();
@@ -256,18 +255,7 @@ function renderTodos() {
     .filter((todo) => todo.completed)
     .sort((a, b) => b.completedAt - a.completedAt);
 
-  //Check if at least one todo is in the editing state
-  const isEditing = todos.some((todo) => todo.editing);
-
-  //Modify layout according to editing state
-  if (isEditing) {
-    mainControlsContainer.classList.add("hidden");
-    navigationControlsContainer.classList.add("hidden");
-    listItemsHeading.textContent = "EDITING ITEM";
-  } else {
-    mainControlsContainer.classList.remove("hidden");
-    navigationControlsContainer.classList.remove("hidden");
-  }
+  // //Check if at least one todo is in the editing state
 
   //Loop through activeTodos array
   activeTodos.forEach((todo) => {
@@ -280,9 +268,7 @@ function renderTodos() {
     const listItem = createTodoItem(todo);
     activeList.append(listItem);
 
-    //Hide non-editing items
-    //Hide main container and list items heading if any todo is editing
-    //If visible is false, hide non-editing todos and main controls container
+    //Hide non-editing todos
     if (!todo.visible) {
       listItem.classList.add("hidden");
     }
@@ -300,9 +286,38 @@ function renderTodos() {
     completedList.append(listItem);
   }); //End of forEach loop for building each list item
 
+  //Check if at least one todo is in the editing state
   //Helper to render UI for different list views
   updateListViewUI(activeTodos, completedTodos);
+  modifyEditingUI();
+
+  // const isEditing = todos.some((todo) => todo.editing);
+
+  // // modify layout according to editing state
+  // if (isEditing) {
+  //   listItemsHeading.textContent = "EDITING ITEM";
+  //   mainControlsContainer.classList.add("hidden");
+  //   navigationControlsContainer.classList.add("hidden");
+  // } else {
+  //   mainControlsContainer.classList.remove("hidden");
+  //   navigationControlsContainer.classList.remove("hidden");
+  // }
 } //End of renderTodo() function definition
+
+//Helper function to temporarily modify editing UI
+function modifyEditingUI() {
+  const isEditing = todos.some((todo) => todo.editing);
+
+  // modify layout according to editing state
+  if (isEditing) {
+    listItemsHeading.textContent = "EDITING ITEM";
+    mainControlsContainer.classList.add("hidden");
+    navigationControlsContainer.classList.add("hidden");
+  } else {
+    mainControlsContainer.classList.remove("hidden");
+    navigationControlsContainer.classList.remove("hidden");
+  }
+}
 
 //Function to handle edits with "Save" button or "Enter" key
 function handleEdit(todo, inlineInput, event) {
@@ -316,8 +331,9 @@ function handleEdit(todo, inlineInput, event) {
     //Turn off editing and reset complete state to false
     todo.editing = false;
     todo.completed = false;
-    liveRegion.textContent =
-      "Saving " + todo.text + ". Add and Clear controls available.";
+    announce(
+      "Saving " + todo.text + ". Main controls and navigation available."
+    );
     toggleVisibility(todo.id);
   }
 }
@@ -328,7 +344,7 @@ function handleCancel(todo, event) {
     event.preventDefault();
     cancelEdit(todo.id);
     toggleVisibility(todo.id);
-    liveRegion.textContent = "Changes discarded.";
+    announce("Changes discarded. Main controls and navigation available.");
   }
 }
 
@@ -417,13 +433,11 @@ function createTodoItem(todo) {
     editButton.addEventListener("click", () => {
       todo.editing = true;
       toggleVisibility(todo.id);
-      liveRegion.text = "";
-      setTimeout(() => {
-        liveRegion.textContent =
-          "Editing " +
+      announce(
+        "Editing " +
           todo.text +
-          ". Save and cancel available. Main controls and toggle unavailable.";
-      }, 100);
+          ". Save and cancel available. Main controls and navigation unavailable"
+      );
     });
 
     deleteButton.addEventListener("click", () => {
@@ -435,8 +449,6 @@ function createTodoItem(todo) {
 
     //Editing
   } else {
-    //Modify list items heading
-
     let inlineInput = document.createElement("input");
     inlineInput.maxLength = 30;
     inlineInput.value = todo.text;
@@ -503,10 +515,9 @@ function toggleComplete(id) {
 
   //Announce Completed state when Complete button is clicked.
   let isCompleted = selectedTodo.completed;
-  liveRegion.textContent = isCompleted
-    ? selectedTodo.text + " moved back to active list."
-    : selectedTodo.text + " marked completed. Moved to completed list.";
-
+  isCompleted
+    ? announce(selectedTodo.text + " moved back to active list.")
+    : announce(selectedTodo.text + " Completed. Moved to completed list.");
   //Toggle between Complete/Incomplete states. Add time stamps for sorting completed items.
   todos = todos.map((todo) =>
     todo.id === id
@@ -529,8 +540,7 @@ function deleteTodo(id) {
   const selectedTodo = todos.find((todo) => todo.id === id);
   let deletedItem = selectedTodo.text;
   todos = todos.filter((todo) => todo.id !== id); //Remove selected item and rebuild array without this item
-  liveRegion.textContent = selectedTodo.text + " Deleted.";
-
+  announce(selectedTodo.text + " deleted");
   saveTodos();
   renderTodos();
 }
