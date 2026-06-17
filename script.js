@@ -113,12 +113,12 @@ function addTodos(event) {
     //Focus text area automatically after adding an item.
     //Return cursor to the beginning of text area
     mainInput.focus();
+    scrollActiveList();
   }
 
   //Save current data and call renderTodos();
   saveTodos();
   renderTodos();
-  scrollActiveList();
 } //End of addTodos() function definition
 
 //Function to scroll active todos when list items overflow. Call in "addTodos()"
@@ -128,18 +128,11 @@ function scrollActiveList() {
       top: activeList.scrollHeight,
       behavior: "smooth"
     });
+    console.log("Scrolling code ran");
   }
 }
 
 //Function to scroll list to bottom when content overflows
-function scrollVisibleList() {
-  const visibleList = showCompleted ? completedList : activeList;
-
-  setTimeout(() => {
-    visibleList.scrollTop = visibleList.scrollHeight;
-  }, 0);
-}
-
 //Define clearTodos() function
 function clearTodos() {
   const visibleTodos = getVisibleTodos();
@@ -182,7 +175,9 @@ activeListButton.addEventListener("click", () => {
 
   saveTodos();
   renderTodos();
-  scrollVisibleList();
+
+  //Active list starts from the top when loaded
+  activeList.scrollTop = 0;
 });
 
 completedListButton.addEventListener("click", () => {
@@ -191,7 +186,9 @@ completedListButton.addEventListener("click", () => {
 
   saveTodos();
   renderTodos();
-  scrollVisibleList();
+
+  //Completed list starts from the top when loaded
+  completedList.scrollTop = 0;
 });
 
 //*****************************

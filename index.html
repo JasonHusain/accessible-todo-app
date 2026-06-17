@@ -22,7 +22,7 @@
             <input name="Input" type="text" id="main-input"  maxlength="30">
         
             <div id="main-btn-container">
-                <button id="add-btn" class="main-btn">ADD TASK</button> 
+                <button id="add-btn" class="main-btn">ADD ITEM</button> 
                 <button id="clear-btn" class="main-btn"></button>
 
             </div>  
@@ -61,59 +61,40 @@
                 
                 <p class="instruction-paragraph">To close this dialog, use the CLOSE button or press the "Escape" key.</p>
                 
-                <p class="instruction-paragraph"> On a physical keyboard: </p>
-                
+                <h2 class="instruction-subheading">App List Views</h2>
+
+                <p class="instruction-paragraph">This app consists of two lists:</p>
                 <ul class="instruction-list">
-                    <li class="instruction-item">Use "Tab" to switch to the next interactive item.</li>
-                    <li class="instruction-item">Use "Shift + Tab" to switch to the previous interactive item.</li>
+                    <li class="instruction-item">Active List</li>
+                    <li class="instruction-item">Completed List</li>
                 </ul>
 
-                <h2 class="instruction-subheading">App Layout</h2>
-                <p class="instruction-paragraph">This app consists of the following components: </p>
-                <ul class="instruction-list">
-                    <li class="instruction-item">Main controls, including the HELP button, main input and buttons to add tasks and clear the list</li>
-                    <li class="instruction-item">A toggle button for showing/hiding the main controls</li>
-                    <li class="instruction-item">A heading showing the current number of items in the list</li>
-                    <li class="instruction-item">The list, which can be scrolled vertically</li>       
-                    </ul>
-            
+                <p class="instruction-paragraph">Use the "SHOW ACTIVE" and "SHOW COMPLETED" buttons to switch between lists.</p>
 
-                <h2 class="instruction-subheading">Adding Items/Clearing List</h2>       
+                <h3 class="mode-heading">Active List Actions</h3>
                 <ul class="instruction-list">
-                    <li class="instruction-item">Enter a task in the main input</li>
-                    <li class="instruction-item">Use the "ADD TASK" button or press the "Enter" key to add an item to the list</li>
-                    <li class="instruction-item">Use the "CLEAR ALL" button to remove all items from the list</li> 
-                </ul>                    
-                
-
-                <h2 class="instruction-subheading">Show/Hide Main Controls</h2>
-                <p class="instruction-paragraph">Use the toggle button to show or hide the main controls. The button will read: </p> 
-                <ul class="instruction-list">
-                    <li class="instruction-item">HIDE MAIN CONTROLS, if they are visible</li>
-                    <li class="instruction-item">SHOW MAIN CONTROLS, if they are hidden</li>
-                    </ul>
-                
-
-                <h2 class="instruction-subheading">Managing Individual Items</h2>
-                
-                <h3 class="mode-heading">Non-Editing Mode Controls</h3> 
-                <ul class="instruction-list">
-                    <li class="instruction-item">Use the "COMPLETE" button to toggle the completed status of a task. When marked "Complete", the text and background color will change. The Button will read "NOT COMPLETE"</li>
-                    <li class="instruction-item">Use the EDIT button to enable editing. All other items will be hidden.</li>
-                    <li class="instruction-item">Use the DELETE button to remove an item.</li>        
+                    <li class="instruction-item">Adding items</li>
+                    <li class="instruction-item">Marking items as Completed</li>
+                    <li class="instruction-item">Editing items</li>
+                    <li class="instruction-item">Deleting individual items</li>
+                    <li class="instruction-item">Clearing all active items</li>
                 </ul>
 
+                <h3 class="mode-heading">Completed List Actions</h3>
+                <ul class="instruction-list">
+                    <li class="instruction-item">Marking items as Active</li>
+                    <li class="instruction-item">Deleting individual items</li>
+                    <li class="instruction-item">Clearing all completed items</li>
+                </ul>
+
+
+
+
+                
+    
+
                 
 
-                <h3 class="mode-heading">Editing Mode Controls</h3>
-                <p class="instruction-paragraph">The selected task is now editable. All other tasks are hidden.</p>
-                <p class="instruction-paragraph">In editing mode, the main controls and toggle button are temporarily unavailable.</p>
-                <p class="instruction-paragraph">The heading above the list now reads "EDITING ITEM".</p>            
-                <ul class="instruction-list">
-                    <li class="instruction-item">Use the "SAVE" button or press "Enter" to save changes and disable editing mode.</li>
-                    <li class="instruction-item">If the text field is empty, the original text will be restored upon saving.</li>
-                    <li class="instruction-item">Use the CANCEL button or press the "Escape" key to discard changes and disable editing</li>        
-                </ul>
             
             </div>
                     

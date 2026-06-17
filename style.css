@@ -22,7 +22,7 @@ body{
     display: flex;     
     align-items: center;  
     border-radius: 10px; 
-    margin-bottom: 0; 
+    margin-bottom: 10px; 
     padding: 10px;  
     background-color: #00a2ff;   
     border: 3px solid black; 
@@ -270,9 +270,14 @@ body{
 /* Format Help dialog text */
 .instruction-paragraph, 
 .instruction-subheading, 
-.mode-heading{
+.mode-heading {
     padding-left: 5%; 
     padding-right: 5%;     
+}
+
+.instruction-list {
+    padding-left: 12%;
+    padding-right: 5%;  
 }
 
 /* Colors and styles for CLOSE button in Help dialog */
