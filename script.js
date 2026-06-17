@@ -3,6 +3,7 @@ const appContainer = document.querySelector("#app-container");
 const mainControlsContainer = document.querySelector(
   "#main-controls-container"
 );
+//Select first element in main controls container
 const navigationControlsContainer = document.querySelector(
   "#navigation-controls-container"
 );
@@ -40,7 +41,7 @@ mainInput.setAttribute("aria-label", "Enter todo here.");
 
 //Default display state for Completed section
 //Default text for switch list button
-let showCompleted = false;
+let showingCompleted = false;
 
 //Create key for storing current todos array in local storage
 const storageKey = "todos";
@@ -58,6 +59,38 @@ renderTodos();
 addButton.addEventListener("click", addTodos);
 mainInput.addEventListener("keydown", addTodos);
 clearButton.addEventListener("click", clearTodos);
+
+//Event listener to handle keyboard navigation
+document.addEventListener("keydown", handleKeyboardNavigation);
+
+//Helper to handle keyboard navigation
+function handleKeyboardNavigation(event) {
+  //Do not execute code if alt key is not pressed
+  //Exit function immediately
+  if (!event.altKey) return;
+
+  switch (event.key.toLowerCase()) {
+    case "a":
+      event.preventDefault();
+      showingCompleted ? clearButton.focus() : mainInput.focus();
+      break;
+
+    case "1":
+      event.preventDefault();
+      activeListButton.focus();
+      break;
+
+    case "2":
+      event.preventDefault();
+      completedListButton.focus();
+      break;
+
+    case "h":
+      event.preventDefault();
+      helpButton.focus();
+      break;
+  }
+}
 
 //Event listeners for help dialog box
 helpButton.addEventListener("click", () => {
@@ -143,14 +176,14 @@ function clearTodos() {
   const visibleTodos = getVisibleTodos();
 
   if (visibleTodos.length === 0) {
-    showCompleted
+    showingCompleted
       ? announce("Completed list is currently empty.")
       : announce("Active list is currently empty.");
 
     return;
   }
 
-  if (showCompleted) {
+  if (showingCompleted) {
     todos = todos.filter((todo) => !todo.completed);
     announce("Completed items cleared.");
   } else {
@@ -164,14 +197,14 @@ function clearTodos() {
 
 //Function to return visible list
 function getVisibleTodos() {
-  return showCompleted
+  return showingCompleted
     ? todos.filter((todo) => todo.completed)
     : todos.filter((todo) => !todo.completed);
 }
 
 //Add event listener for switch list button
 activeListButton.addEventListener("click", () => {
-  showCompleted = false;
+  showingCompleted = false;
   announce("Active list selected.");
 
   saveTodos();
@@ -182,7 +215,7 @@ activeListButton.addEventListener("click", () => {
 });
 
 completedListButton.addEventListener("click", () => {
-  showCompleted = true;
+  showingCompleted = true;
   announce("Completed list selected.");
 
   saveTodos();
@@ -198,18 +231,20 @@ completedListButton.addEventListener("click", () => {
 function updateListViewUI(activeTodos, completedTodos) {
   //Make list items heading focusable
   //Target list heading and add todo count
-  listItemsHeading.textContent = showCompleted
+  listItemsHeading.textContent = showingCompleted
     ? "COMPLETED ITEMS: " + completedTodos.length
     : "ACTIVE ITEMS: " + activeTodos.length;
 
   //Change text on clear button, depending on list view
-  clearButton.textContent = showCompleted ? "CLEAR COMPLETED" : "CLEAR ACTIVE";
+  clearButton.textContent = showingCompleted
+    ? "CLEAR COMPLETED"
+    : "CLEAR ACTIVE";
 
   //Collection of elements to hide or remove based on completed state
   const hidingElements = [mainInput, addButton, activeList];
 
   //Show/hide different lists and style navigtion buttons, depending on view
-  if (showCompleted) {
+  if (showingCompleted) {
     // activeList.classList.remove("hidden");
     hidingElements.forEach((element) => {
       element.classList.add("hidden");
