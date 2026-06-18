@@ -89,6 +89,17 @@ function handleKeyboardNavigation(event) {
       event.preventDefault();
       helpButton.focus();
       break;
+
+    case "l":
+      const visibleList = showingCompleted ? completedList : activeList;
+
+      //Focus span in first list item
+      const firstSpan = visibleList.querySelector(".todo-span");
+
+      //Only apply focus if span can be found in the DOM.
+      if (firstSpan) {
+        firstSpan.focus();
+      }
   }
 }
 
