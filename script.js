@@ -75,6 +75,10 @@ function handleKeyboardNavigation(event) {
       showingCompleted ? clearButton.focus() : mainInput.focus();
       break;
 
+    case "i":
+      listItemsHeading.focus();
+      break;
+
     case "1":
     case "n":
       event.preventDefault();
