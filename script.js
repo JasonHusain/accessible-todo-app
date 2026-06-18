@@ -70,12 +70,13 @@ function handleKeyboardNavigation(event) {
   if (!event.altKey) return;
 
   switch (event.key.toLowerCase()) {
-    case "a":
+    case "m":
       event.preventDefault();
       showingCompleted ? clearButton.focus() : mainInput.focus();
       break;
 
     case "1":
+    case "n":
       event.preventDefault();
       activeListButton.focus();
       break;
