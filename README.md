@@ -3,30 +3,32 @@
 A simple, accessible task management app designed to reduce complexity.  
 
 Description: 
-This is an accessible todo list application designed for individuals with visual impairments.  
+This is an accessible todo list application designed for individuals with visual and cognitive challenges.  
 
 Features: 
-    - Compatible with screen readers
-    - Add, Clear and Help buttons in main controls container
-    - A toggle button to show or hide main controls for space management
-    - List items count
-    - Option to show and hide main controls for better UX
-    - Toggling between Complete/Incomplete modes
-    - Toggling between Edit/Save modes
-    - Inline editing for individual items
+    - Active and completed list views
+    - Buttons to navigate between modes
+    - List item counts for both views
+    - Marking items Complete/Active
+    - Deleting individual items
+    - Inline editing for active items
+    - Buttons to clear al items from lists
+    - App use instructions dialog
     - Responsive mobile design
-    - App use instructions in a dialog box
+    - PWA support
+    - Offline functionality 
+
 
 Accessibility features: 
     - ARIA labels for elements
     - ARIA live announcements for events
-    - Keyboard inputs enabled for adding and editing
-    - Some keyboard navigation included
-    - Accessible Help dialog with instructions
+    - Keyboard navigation and actions
 
 Technologies used
     - HTML5
     - CSS3 (Flexbox)
     - JavaScript (ES6)
 
-F
+
+
+

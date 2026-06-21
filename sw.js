@@ -8,6 +8,7 @@ const FILES_TO_CACHE = [
   "./style.css",
   "./script.js",
   "./manifest.webmanifest",
+  "./assets/favicon32.png",
   "./assets/icon-192.png",
   "./assets/icon-512.png"
 ];
