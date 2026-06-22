@@ -30,5 +30,44 @@ Technologies used
     - JavaScript (ES6)
 
 
+## Screenshots
 
+<h2>Active View</h2>
 
+<p>
+  The default active list view where you can add and manage tasks.
+</p>
+
+<img src="./screenshots/active-view.png"
+     alt="Main screen showing the active list"
+     width="500">
+
+<h2>Completed View</h2>
+
+<p>
+  View and manage completed tasks separately from active tasks.
+</p>
+
+<img src="./screenshots/completed-view.png"
+     alt="Completed task list"
+     width="500">
+
+<h2>Editing Mode</h2>
+
+<p>
+  Edit existing tasks with visual indicators and keyboard support.
+</p>
+
+<img src="./screenshots/editing-mode.png"
+     alt="Editing mode"
+     width="500">
+
+<h2>Help Modal</h2>
+
+<p>
+  Built-in help with keyboard shortcuts and usage instructions.
+</p>
+
+<img src="./screenshots/help-modal.png"
+     alt="Help modal with instructions and keyboard shortcuts"
+     width="500">
