@@ -8,7 +8,10 @@ const FILES_TO_CACHE = [
   "./style.css",
   "./script.js",
   "./manifest.webmanifest",
-  "./assets/favicon32.png",
+  "./assets/favicon.ico",
+  "./assets/apple-touch-icon.png",
+  "./assets/favicon-32x32.png",
+  "./assets/favicon-96x96.png",
   "./assets/icon-192.png",
   "./assets/icon-512.png"
 ];
