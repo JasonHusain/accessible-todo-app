@@ -529,20 +529,20 @@ function createTodoItem(todo) {
     // inlineInput.focus();
 
     //Event listeners for editing
-    editButton.addEventListener("click", () => {
+    editButton.addEventListener("click", (event) => {
       handleEdit(todo, inlineInput, event);
     });
 
-    inlineInput.addEventListener("keydown", () => {
+    inlineInput.addEventListener("keydown", (event) => {
       handleEdit(todo, inlineInput, event);
     });
 
     //Event listeners for cancelling changes
-    cancelButton.addEventListener("click", () => {
+    cancelButton.addEventListener("click", (event) => {
       handleCancel(todo, event);
     });
 
-    inlineInput.addEventListener("keydown", () => {
+    inlineInput.addEventListener("keydown", (event) => {
       handleCancel(todo, event);
     });
 
