@@ -1,11 +1,9 @@
 //Register service worker for offline use
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("./sw.js")
-      .then(() => console.log("Service worker registered"))
-      .catch((error) => console.error("Service worker failed:", error));
-  });
+  navigator.serviceWorker
+    .register("./sw.js")
+    .then(() => console.log("Service worker registered"))
+    .catch((error) => console.error("Service worker failed:", error));
 }
 
 //Target DOM Elements
