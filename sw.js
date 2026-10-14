@@ -1,6 +1,6 @@
 //Define cache name and store files to cache in an array.
 
-const CACHE_NAME = "easytodos-v2";
+const CACHE_NAME = "easytodos-v3";
 
 const FILES_TO_CACHE = [
   "./",
@@ -18,9 +18,11 @@ const FILES_TO_CACHE = [
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(FILES_TO_CACHE))
+    caches
+      .open(CACHE_NAME)
+      .then((cache) => cache.addAll(FILES_TO_CACHE))
+      .then(() => self.skipWaiting())
   );
-  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
@@ -30,7 +32,9 @@ self.addEventListener("activate", (event) => {
       .then((names) =>
         Promise.all(
           names
-            .filter((name) => name !== CACHE_NAME)
+            .filter(
+              (name) => name.startsWith("easytodos-") && name !== CACHE_NAME
+            )
             .map((name) => caches.delete(name))
         ).then(() => self.clients.claim())
       )

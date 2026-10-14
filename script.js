@@ -8,9 +8,6 @@ if ("serviceWorker" in navigator) {
 
 //Target DOM Elements
 const appContainer = document.querySelector("#app-container");
-const mainControlsContainer = document.querySelector(
-  "#main-controls-container"
-);
 //Select first element in main controls container
 const navigationControlsContainer = document.querySelector(
   "#navigation-controls-container"
@@ -24,6 +21,7 @@ const completedListButton = document.querySelector("#completed-list-btn");
 const activeList = document.querySelector("#active-list");
 const completedList = document.querySelector("#completed-list");
 const listItemsHeading = document.querySelector("#list-items-heading");
+const liveRegion = document.querySelector("#live-region");
 //Selecting dialog box elements
 const helpDialog = document.querySelector("#help-dialog");
 const instructionsHeading = document
@@ -31,17 +29,19 @@ const instructionsHeading = document
   .focus();
 const closeButton = document.querySelector("#close-btn");
 
-//Select live region
-const liveRegion = document.querySelector("#live-region");
-
-//Live region announcement helper
-function announce(message) {
+//Live region announcement helper for app actions
+function announceAction(actionMessage) {
   liveRegion.textContent = "";
 
   setTimeout(() => {
-    liveRegion.textContent = message;
+    liveRegion.textContent = actionMessage;
   }, 50);
 }
+
+//Orientation query
+const orientationQuery = window.matchMedia(
+  "(orientation: landscape) and (max-height: 600px)"
+);
 
 //Add aria label to main input
 mainInput.focus();
@@ -125,7 +125,7 @@ helpButton.addEventListener("click", () => {
 //Handle closing of modal
 helpDialog.addEventListener("close", () => {
   appContainer.classList.remove("hidden");
-  announce("Help dialog closed");
+  announceAction("Help dialog closed");
   helpButton.focus();
 });
 
@@ -160,12 +160,14 @@ function addTodos(event) {
     //Disable add button when input field is empty
     mainInput.value = "";
 
-    //Announcements for adding items
+    //announceActionments for adding items
     if (todoText === "") {
-      announce("Enter text."); // input.focus();
+      announceAction("Enter text."); // input.focus();
       // return;
     } else {
-      announce(newTodo.text + " added. Complete, edit and delete available.");
+      announceAction(
+        newTodo.text + " added. Complete, edit and delete available."
+      );
     }
 
     //Focus text area automatically after adding an item.
@@ -201,18 +203,18 @@ function clearTodos() {
 
   if (visibleTodos.length === 0) {
     showingCompleted
-      ? announce("Completed list is currently empty.")
-      : announce("Active list is currently empty.");
+      ? announceAction("Completed list is currently empty.")
+      : announceAction("Active list is currently empty.");
 
     return;
   }
 
   if (showingCompleted) {
     todos = todos.filter((todo) => !todo.completed);
-    announce("Completed items cleared.");
+    announceAction("Completed items cleared.");
   } else {
     todos = todos.filter((todo) => todo.completed);
-    announce("Active items cleared.");
+    announceAction("Active items cleared.");
   }
 
   saveTodos();
@@ -229,7 +231,7 @@ function getVisibleTodos() {
 //Add event listener for switch list button
 activeListButton.addEventListener("click", () => {
   showingCompleted = false;
-  announce("Active list selected.");
+  announceAction("Active list selected.");
 
   saveTodos();
   renderTodos();
@@ -240,7 +242,7 @@ activeListButton.addEventListener("click", () => {
 
 completedListButton.addEventListener("click", () => {
   showingCompleted = true;
-  announce("Completed list selected.");
+  announceAction("Completed list selected.");
 
   saveTodos();
   renderTodos();
@@ -281,7 +283,7 @@ function updateListViewUI(activeTodos, completedTodos) {
     completedListButton.classList.add("current-list-btn");
 
     //Maintain main controls container dimensions
-    mainControlsContainer.classList.add("maintained-layout");
+    // mainControlsContainer.classList.add("maintained-main-controls-layout");
 
     clearButton.setAttribute("aria-label", "Clear completed list.");
   } else {
@@ -392,7 +394,7 @@ function handleEdit(todo, inlineInput, event) {
     //Turn off editing and reset complete state to false
     todo.editing = false;
     todo.completed = false;
-    announce(
+    announceAction(
       "Saving " + todo.text + ". Main controls and navigation available."
     );
     toggleVisibility(todo.id);
@@ -405,7 +407,9 @@ function handleCancel(todo, event) {
     event.preventDefault();
     cancelEdit(todo.id);
     toggleVisibility(todo.id);
-    announce("Changes discarded. Main controls and navigation available.");
+    announceAction(
+      "Changes discarded. Main controls and navigation available."
+    );
   }
 }
 
@@ -494,7 +498,7 @@ function createTodoItem(todo) {
     editButton.addEventListener("click", () => {
       todo.editing = true;
       toggleVisibility(todo.id);
-      announce(
+      announceAction(
         "Editing " +
           todo.text +
           ". Save and cancel available. Main controls and navigation unavailable"
@@ -574,11 +578,13 @@ function toggleComplete(id) {
   //Find todo to mark as Complete/Incomplete
   const selectedTodo = todos.find((todo) => todo.id === id);
 
-  //Announce Completed state when Complete button is clicked.
+  //announceAction Completed state when Complete button is clicked.
   let isCompleted = selectedTodo.completed;
   isCompleted
-    ? announce(selectedTodo.text + " moved back to active list.")
-    : announce(selectedTodo.text + " Completed. Moved to completed list.");
+    ? announceAction(selectedTodo.text + " moved back to active list.")
+    : announceAction(
+        selectedTodo.text + " Completed. Moved to completed list."
+      );
   //Toggle between Complete/Incomplete states. Add time stamps for sorting completed items.
   todos = todos.map((todo) =>
     todo.id === id
@@ -601,7 +607,7 @@ function deleteTodo(id) {
   const selectedTodo = todos.find((todo) => todo.id === id);
   let deletedItem = selectedTodo.text;
   todos = todos.filter((todo) => todo.id !== id); //Remove selected item and rebuild array without this item
-  announce(selectedTodo.text + " deleted");
+  announceAction(selectedTodo.text + " deleted");
   saveTodos();
   renderTodos();
 }

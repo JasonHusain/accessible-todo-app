@@ -1,142 +1,164 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="EasyTodos is an accessible, offline-capable todo app with keyboard navigation and PWA support.">
-    <meta name="theme-color" content="#FFD600">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-title" content="EasyTodos">
+    <meta
+      name="description"
+      content="EasyTodos is an accessible, offline-capable todo app with keyboard navigation and PWA support."
+    />
+    <meta name="theme-color" content="#FFD600" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="EasyTodos" />
 
     <!-- Images and icons -->
-    <link rel="icon" href="assets/favicon.ico">
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
-    <link rel="manifest" href="manifest.webmanifest">    
+    <link rel="icon" href="assets/favicon.ico" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="assets/favicon-96x96.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="manifest.webmanifest" />
 
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
-    <title>EasyTodos | Simple, accessible task management</title></head>
-<body>
+    <title>EasyTodos | Simple, accessible task management</title>
+  </head>
+  <body>
     <div id="app-container">
-        <div id="live-region" aria-live="assertive" class="sr-only"></div>
+      <div id="live-region" aria-live="assertive" class="sr-only"></div>
 
-        
-        <div id="main-controls-container">
-   
-            <input name="Input" type="text" id="main-input"  maxlength="30">
-        
-            <div id="main-btn-container">
-                <button id="add-btn" class="main-btn">ADD ITEM</button> 
-                <button id="clear-btn" class="main-btn"></button>
+      <div id="main-controls-container">
+        <input name="Input" type="text" id="main-input" maxlength="30" />
 
-            </div>  
-        
+        <div id="main-btn-container">
+          <button id="add-btn" class="main-btn">ADD ITEM</button>
+          <button id="clear-btn" class="main-btn"></button>
         </div>
+      </div>
 
-        <h3 id="list-items-heading" tabindex="0"></h3>
+      <h3 id="list-items-heading" tabindex="0"></h3>
 
-        
-        <ul id="active-list"></ul>
-        <ul id="completed-list"></ul>
+      <ul id="active-list"></ul>
+      <ul id="completed-list"></ul>
 
-
-        <div id="navigation-controls-container">
-        <button id="active-list-btn" class="nav-btn" aria-label="View active list">SHOW ACTIVE</button>
-        <button id="completed-list-btn" class="nav-btn" aria-label="View completed list">SHOW COMPLETED</button>
+      <div id="navigation-controls-container">
+        <button
+          id="active-list-btn"
+          class="nav-btn"
+          aria-label="View active list"
+        >
+          SHOW ACTIVE
+        </button>
+        <button
+          id="completed-list-btn"
+          class="nav-btn"
+          aria-label="View completed list"
+        >
+          SHOW COMPLETED
+        </button>
         <button id="help-btn" class="nav-btn">HELP</button>
+      </div>
+    </div>
 
-        </div>
-
-    </div>  
-    
     <dialog id="help-dialog" aria-labelledby="instructions-heading">
+      <h1 id="instructions-heading" tabindex="-1">HOW TO USE THIS APP</h1>
+      <div id="instruction-container">
+        <p class="instruction-paragraph">
+          Welcome to EasyTodos, a simple and accessible task management app.
+        </p>
 
-        
-        <h1 id="instructions-heading" tabindex="-1">HOW TO USE THIS APP</h1>
-            <div id="instruction-container">
-                
-                <p class="instruction-paragraph">Welcome to EasyTodos, a simple and accessible task management app. </p>
+        <p class="instruction-paragraph">
+          This app is designed to provide simple, accessible task management
+          with minimal complexity. It is optimized for screen readers, keyboard
+          navigation, and accessible touch interactions on mobile devices.
+        </p>
 
-                <p class="instruction-paragraph">
-                    This app is designed to provide simple, accessible task management with minimal complexity. 
-                    It is optimized for screen readers, keyboard navigation, and accessible touch interactions
-                    on mobile devices. 
-                </p> 
-                
-                <p class="instruction-paragraph">To close this dialog, use the CLOSE button or press the "Escape" key.</p>
-                
-                <h2 class="instruction-subheading">App List Views</h2>
+        <p class="instruction-paragraph">
+          To close this dialog, use the CLOSE button or press the "Escape" key.
+        </p>
 
-                <p class="instruction-paragraph">This app consists of two lists:</p>
-                <ul class="instruction-list">
-                    <li class="instruction-item">Active List</li>
-                    <li class="instruction-item">Completed List</li>
-                </ul>
+        <h2 class="instruction-subheading">App List Views</h2>
 
-                <p class="instruction-paragraph">Use the "SHOW ACTIVE" and "SHOW COMPLETED" buttons to switch between lists.</p>
+        <p class="instruction-paragraph">This app consists of two lists:</p>
+        <ul class="instruction-list">
+          <li class="instruction-item">Active List</li>
+          <li class="instruction-item">Completed List</li>
+        </ul>
 
-                <h3 class="mode-heading">Active List Actions</h3>
-                <ul class="instruction-list">
-                    <li class="instruction-item">Adding todos</li>
-                    <li class="instruction-item">Marking todos as Completed</li>
-                    <li class="instruction-item">Editing todos</li>
-                    <li class="instruction-item">Deleting individual todos</li>
-                    <li class="instruction-item">Clearing all active todos</li>
-                </ul>
+        <p class="instruction-paragraph">
+          Use the "SHOW ACTIVE" and "SHOW COMPLETED" buttons to switch between
+          lists.
+        </p>
 
-                <h3 class="mode-heading">Completed List Actions</h3>
-                <ul class="instruction-list">
-                    <li class="instruction-item">Marking todos as Active</li>
-                    <li class="instruction-item">Deleting individual todos</li>
-                    <li class="instruction-item">Clearing all completed todos</li>
-                </ul>
+        <h3 class="mode-heading">Active List Actions</h3>
+        <ul class="instruction-list">
+          <li class="instruction-item">Adding todos</li>
+          <li class="instruction-item">Marking todos as Completed</li>
+          <li class="instruction-item">Editing todos</li>
+          <li class="instruction-item">Deleting individual todos</li>
+          <li class="instruction-item">Clearing all active todos</li>
+        </ul>
 
-                <h2 class="instruction-subheading">Keyboard Navigation</h2>
-                <ul class="instruction-list">
-                    <li class="instruction-item">Tab: Move to the next interactive element</li>
-                    <li class="instruction-item">Shift + Tab: Move to the previous interactive element</li>
-                    <li class="instruction-item">Alt + M: Go to main controls</li>
-                    <li class="instruction-item">Alt + I: Go to list items heading</li>
-                    <li class="instruction-item">Alt + L: Go to the first item in the current list</li>
-                    <li class="instruction-item">Alt + N or Alt + 1: Go to "SHOW ACTIVE" button</li>
-                    <li class="instruction-item">Alt + 2: Go to "SHOW COMPLETED" button</li>
-                    <li class="instruction-item">Alt + H: Go to "HELP" button</li>
-                </ul>
-                
-                <h2 class="instruction-subheading">Keyboard Actions</h2>                
-                <ul class="instruction-list">
-                    <li class="instruction-item">Enter: Add a todo to the active list or save edits</li>
-                    <li class="instruction-item">Escape: Discard edits or close help dialog</li>
-                </ul>
+        <h3 class="mode-heading">Completed List Actions</h3>
+        <ul class="instruction-list">
+          <li class="instruction-item">Marking todos as Active</li>
+          <li class="instruction-item">Deleting individual todos</li>
+          <li class="instruction-item">Clearing all completed todos</li>
+        </ul>
 
+        <h2 class="instruction-subheading">Keyboard Navigation</h2>
+        <ul class="instruction-list">
+          <li class="instruction-item">
+            Tab: Move to the next interactive element
+          </li>
+          <li class="instruction-item">
+            Shift + Tab: Move to the previous interactive element
+          </li>
+          <li class="instruction-item">Alt + M: Go to main controls</li>
+          <li class="instruction-item">Alt + I: Go to list items heading</li>
+          <li class="instruction-item">
+            Alt + L: Go to the first item in the current list
+          </li>
+          <li class="instruction-item">
+            Alt + N or Alt + 1: Go to "SHOW ACTIVE" button
+          </li>
+          <li class="instruction-item">
+            Alt + 2: Go to "SHOW COMPLETED" button
+          </li>
+          <li class="instruction-item">Alt + H: Go to "HELP" button</li>
+        </ul>
 
+        <h2 class="instruction-subheading">Keyboard Actions</h2>
+        <ul class="instruction-list">
+          <li class="instruction-item">
+            Enter: Add a todo to the active list or save edits
+          </li>
+          <li class="instruction-item">
+            Escape: Discard edits or close help dialog
+          </li>
+        </ul>
+      </div>
 
-
-                
-
-
-
-
-                
-    
-
-                
-
-            
-            </div>
-                    
-                
-        <button id="close-btn" class="main-btn" aria-label="Close help dialog.">CLOSE</button>
-        
+      <button id="close-btn" class="main-btn" aria-label="Close help dialog.">
+        CLOSE
+      </button>
     </dialog>
-    
 
     <script src="script.js"></script>
-
-</body>
-</html>     
+  </body>
+</html>
