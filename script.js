@@ -12,6 +12,10 @@ const appContainer = document.querySelector("#app-container");
 const navigationControlsContainer = document.querySelector(
   "#navigation-controls-container"
 );
+
+const mainControlsContainer = document.querySelector(
+  "#main-controls-container"
+);
 const mainInput = document.querySelector("#main-input");
 const helpButton = document.querySelector("#help-btn");
 const addButton = document.querySelector("#add-btn");
@@ -37,11 +41,6 @@ function announceAction(actionMessage) {
     liveRegion.textContent = actionMessage;
   }, 50);
 }
-
-//Orientation query
-const orientationQuery = window.matchMedia(
-  "(orientation: landscape) and (max-height: 600px)"
-);
 
 //Add aria label to main input
 mainInput.focus();

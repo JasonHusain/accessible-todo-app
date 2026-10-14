@@ -1,6 +1,6 @@
 //Define cache name and store files to cache in an array.
 
-const CACHE_NAME = "easytodos-v3";
+const CACHE_NAME = "easytodos-v4";
 
 const FILES_TO_CACHE = [
   "./",
